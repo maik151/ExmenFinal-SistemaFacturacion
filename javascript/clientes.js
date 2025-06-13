@@ -1,7 +1,6 @@
 // Función para mapear un cliente desde los parámetros
-function MapearClienteObject(idParam, nombreParam, cedulaParam, direccionParam) {
+function MapearClienteObject(nombreParam, cedulaParam, direccionParam) {
   return {
-    id: idParam,
     nombre: nombreParam,
     cedula: cedulaParam,
     direccion: direccionParam
@@ -70,3 +69,4 @@ function limpiarClientes() {
 }
 
 
+console.log(obtenerTodosLosClientes());
