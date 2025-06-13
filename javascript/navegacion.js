@@ -19,24 +19,28 @@ function cargarContenido(seccion) {
     switch (seccion) {
       case "clientes":
         panelDinamico.innerHTML = `
-          <h2>Gestión de Clientes</h2>
-          <form id="formCliente">
+        <h2>Gestión de Clientes</h2>
+        <form id="formCliente">
             <input type="text" id="nombreCliente" placeholder="Nombre" required />
             <input type="text" id="cedulaCliente" placeholder="Cédula" required />
             <input type="text" id="direccionCliente" placeholder="Dirección" required />
             <button type="submit">Guardar Cliente</button>
-          </form>
-          <h3>Listado de Clientes</h3>
-          <table id="tablaClientes">
+            <button type="button" id="btnRecargarClientes">RELOAD</button>
+        </form>
+
+        <h3>Listado de Clientes</h3>
+        <table id="tablaClientes">
             <thead>
-              <tr><th>Nombre</th><th>Cédula</th><th>Dirección</th><th>Acciones</th></tr>
+            <tr><th>Nombre</th><th>Cédula</th><th>Dirección</th><th>Acciones</th></tr>
             </thead>
             <tbody></tbody>
-          </table>
+        </table>
         `;
+
         if (typeof inicializarModuloClientes === "function") {
-          inicializarModuloClientes();
+        inicializarModuloClientes();
         }
+        
         break;
 
       case "productos":

@@ -1,3 +1,5 @@
+
+
 // Función para mapear un cliente desde los parámetros
 function MapearClienteObject(id, nombreParam, cedulaParam, direccionParam) {
   return {
