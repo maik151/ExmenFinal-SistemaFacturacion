@@ -3,7 +3,7 @@ import {
   obtenerTodosLosClientes,
   eliminarCliente,
   actualizarCliente
-} from "./modulos/clientes.js";
+} from "../modulos/clientes.js";
 
 export function inicializarModuloClientes() {
   console.log("Inicializado módulo clientes");

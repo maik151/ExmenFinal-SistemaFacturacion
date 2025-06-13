@@ -1,5 +1,6 @@
 
-import { inicializarModuloClientes } from "./main.js";
+import { inicializarModuloClientes } from "./main/clientesMain.js";
+import { inicializarModuloProductos } from "./main/productosMain.js";
 
 // En este caso, ejecutamos un eveto tipo ContentLoaded para asegurarnos de que el DOM esté completamente cargado antes de intentar manipularlo.
 document.addEventListener("DOMContentLoaded", () => {
@@ -45,25 +46,24 @@ function cargarContenido(seccion) {
 
       case "productos":
         panelDinamico.innerHTML = `
-          <h2>Gestión de Productos</h2>
-          <form id="formProducto">
+            <h2>Gestión de Productos</h2>
+            <form id="formProducto">
             <input type="text" id="nombreProducto" placeholder="Nombre del producto" required />
-            <input type="text" id="codigoProducto" placeholder="Código" required />
-            <input type="text" id="descripcionProducto" placeholder="Descripción" required />
+            <input type="number" step="0.01" id="precioProducto" placeholder="Precio" required />
             <button type="submit">Guardar Producto</button>
-          </form>
-          <h3>Listado de Productos</h3>
-          <table id="tablaProductos">
+            </form>
+            <h3>Listado de Productos</h3>
+            <table id="tablaProductos">
             <thead>
-              <tr><th>Nombre</th><th>Código</th><th>Descripción</th><th>Acciones</th></tr>
+                <tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
             </thead>
             <tbody></tbody>
-          </table>
+            </table>
         `;
         if (typeof inicializarModuloProductos === "function") {
-          inicializarModuloProductos();
+            inicializarModuloProductos();
         }
-        break;
+    break;
 
       // En este caso jugamos un poco con la generacion de contenido dinamico, donde definimos resultadoFactura de nuevo, mapeamos los campos de dicha factura en un HTML y lo insertamos con innerHTML
       // este innerHTML se ejecuta dentro del evento submit del formulario.
