@@ -1,6 +1,7 @@
 
 import { inicializarModuloClientes } from "./main/clientesMain.js";
 import { inicializarModuloProductos } from "./main/productosMain.js";
+import { inicializarModuloFacturas } from "./main/facturasMain.js";
 
 // En este caso, ejecutamos un eveto tipo ContentLoaded para asegurarnos de que el DOM esté completamente cargado antes de intentar manipularlo.
 document.addEventListener("DOMContentLoaded", () => {
@@ -37,7 +38,8 @@ function cargarContenido(seccion) {
             <tbody></tbody>
         </table>
         `;
-
+        // Aquí llamamos a la función inicializarModuloClientes que se encargará de manejar la lógica del módulo de clientes.
+        // Verificamos si la función inicializarModuloClientes está definida y la llamamos.
         if (typeof inicializarModuloClientes === "function") {
         inicializarModuloClientes();
         }
@@ -71,129 +73,35 @@ function cargarContenido(seccion) {
         panelDinamico.innerHTML = `
             <h2>Generar Factura</h2>
             <form id="formFactura">
-            <input type="text" id="clienteFactura" placeholder="Nombre del Cliente" required />
+                <select id="clienteFactura" required>
+                    <option value="">Seleccionar Cliente</option>
+                </select>
 
-            <div id="productosContainer">
-                <div class="grupo-producto">
-                <input type="text" class="producto" placeholder="Producto" required />
-                <input type="number" class="cantidad" placeholder="Cantidad" required />
-                <input type="number" class="precio" placeholder="Precio Unitario" required />
+                <div id="productosContainer">
+                    <div class="grupo-producto">
+                        <input type="text" class="producto" placeholder="Producto" required />
+                        <input type="number" class="cantidad" placeholder="Cantidad" required />
+                        <input type="number" class="precio" placeholder="Precio Unitario" required />
+                    </div>
                 </div>
-            </div>
 
-            <div class="controles-productos">
-                <button type="button" id="btnAgregarFila">+</button>
-                <button type="button" id="btnEliminarFila" disabled>-</button>
-            </div>
+                <div class="controles-productos">
+                    <button type="button" id="btnAgregarFila">+</button>
+                    <button type="button" id="btnEliminarFila" disabled>-</button>
+                </div>
 
-            <button type="submit">Generar Factura</button>
+                <button type="submit">Generar Factura</button>
             </form>
 
             <h3>Factura Generada</h3>
             <div id="resultadoFactura"></div>
         `;
 
-        const productosContainer = document.getElementById("productosContainer");
-        const btnAgregarFila = document.getElementById("btnAgregarFila");
-        const btnEliminarFila = document.getElementById("btnEliminarFila");
-        const formFactura = document.getElementById("formFactura");
-        const resultadoFactura = document.getElementById("resultadoFactura");
-
-        // Evento para agregar fila de producto
-        btnAgregarFila.addEventListener("click", () => {
-            const grupos = productosContainer.querySelectorAll(".grupo-producto");
-            if (grupos.length < 5) {
-            const nuevaFila = document.createElement("div");
-            nuevaFila.className = "grupo-producto";
-            nuevaFila.innerHTML = `
-                <input type="text" class="producto" placeholder="Producto" required />
-                <input type="number" class="cantidad" placeholder="Cantidad" required />
-                <input type="number" class="precio" placeholder="Precio Unitario" required />
-            `;
-            productosContainer.appendChild(nuevaFila);
-            }
-
-            actualizarEstadoBotones();
-        });
-
-        // Evento para eliminar la última fila de producto
-        btnEliminarFila.addEventListener("click", () => {
-            const grupos = productosContainer.querySelectorAll(".grupo-producto");
-            if (grupos.length > 1) {
-            productosContainer.removeChild(grupos[grupos.length - 1]);
-            }
-
-            actualizarEstadoBotones();
-        });
-
-        // Función para habilitar/deshabilitar botón "-"
-        function actualizarEstadoBotones() {
-            const totalFilas = productosContainer.querySelectorAll(".grupo-producto").length;
-            btnEliminarFila.disabled = totalFilas <= 1;
-            btnAgregarFila.disabled = totalFilas >= 5;
-        }
-
-        // Evento para generar factura
-        formFactura.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const cliente = document.getElementById("clienteFactura").value;
-            const filas = productosContainer.querySelectorAll(".grupo-producto");
-
-            let filasHTML = "";
-            let subtotal = 0;
-
-            filas.forEach(fila => {
-            const producto = fila.querySelector(".producto").value;
-            const cantidad = parseInt(fila.querySelector(".cantidad").value);
-            const precio = parseFloat(fila.querySelector(".precio").value);
-            const totalFila = cantidad * precio;
-            subtotal += totalFila;
-
-            filasHTML += `
-                <tr>
-                <td>${producto}</td>
-                <td>${cantidad}</td>
-                <td>$${precio.toFixed(2)}</td>
-                <td>$${totalFila.toFixed(2)}</td>
-                </tr>
-            `;
-            });
-
-            const iva = subtotal * 0.12;
-            const total = subtotal + iva;
-
-            resultadoFactura.innerHTML = `
-            <div class="factura">
-                <h4>Factura</h4>
-                <p><strong>Cliente:</strong> ${cliente}</p>
-                <table class="tabla-factura">
-                <thead>
-                    <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${filasHTML}
-                </tbody>
-                <tfoot>
-                    <tr>
-                    <td colspan="3"><strong>IVA (12%)</strong></td>
-                    <td>$${iva.toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                    <td colspan="3"><strong>Total</strong></td>
-                    <td><strong>$${total.toFixed(2)}</strong></td>
-                    </tr>
-                </tfoot>
-                </table>
-            </div>
-            `;
-        });
-        break;
+    // Cargar lógica del módulo facturas
+    if (typeof inicializarModuloFacturas === "function") {
+        inicializarModuloFacturas();
+    }
+    break;
 
       default:
         panelDinamico.innerHTML = `<p>Sección no reconocida.</p>`;

@@ -69,12 +69,3 @@ export {
   eliminarFactura,
   limpiarFacturas
 };
-
-export{
-    obtenerTodasLasFacturas,
-    guardarFacturas,
-    agregarFactura,
-    obtenerFacturaPorId,
-    eliminarFactura,
-    limpiarFacturas
-}
