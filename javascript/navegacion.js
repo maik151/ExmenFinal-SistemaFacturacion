@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     panelDinamico.classList.add("panel-dinamico");
     contenedorPrincipal.appendChild(panelDinamico);
   }
-//Declaramos la funcion de cargarContenido, donde funciona en base a un switch que recibe una seccion y segun eso carga determinada ventana.
-  function cargarContenido(seccion) {
+//Declaramos la funcion de cargarContenido, donde funciona en base a un switch que recibe una seccion y segun eso carga determinada ventana.  
+function cargarContenido(seccion) {
     switch (seccion) {
       case "clientes":
         panelDinamico.innerHTML = `
@@ -59,32 +59,101 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
 
+      // En este caso jugamos un poco con la generacion de contenido dinamico, donde definimos resultadoFactura de nuevo, mapeamos los campos de dicha factura en un HTML y lo insertamos con innerHTML
+      // este innerHTML se ejecuta dentro del evento submit del formulario.
       case "facturacion":
         panelDinamico.innerHTML = `
             <h2>Generar Factura</h2>
             <form id="formFactura">
             <input type="text" id="clienteFactura" placeholder="Nombre del Cliente" required />
-            <input type="text" id="productoFactura" placeholder="Producto" required />
-            <input type="number" id="cantidadFactura" placeholder="Cantidad" required />
-            <input type="number" id="precioFactura" placeholder="Precio Unitario" required />
+
+            <div id="productosContainer">
+                <div class="grupo-producto">
+                <input type="text" class="producto" placeholder="Producto" required />
+                <input type="number" class="cantidad" placeholder="Cantidad" required />
+                <input type="number" class="precio" placeholder="Precio Unitario" required />
+                </div>
+            </div>
+
+            <div class="controles-productos">
+                <button type="button" id="btnAgregarFila">+</button>
+                <button type="button" id="btnEliminarFila" disabled>-</button>
+            </div>
+
             <button type="submit">Generar Factura</button>
             </form>
+
             <h3>Factura Generada</h3>
             <div id="resultadoFactura"></div>
         `;
 
-        // Función inline para generar la factura
+        const productosContainer = document.getElementById("productosContainer");
+        const btnAgregarFila = document.getElementById("btnAgregarFila");
+        const btnEliminarFila = document.getElementById("btnEliminarFila");
         const formFactura = document.getElementById("formFactura");
         const resultadoFactura = document.getElementById("resultadoFactura");
 
+        // Evento para agregar fila de producto
+        btnAgregarFila.addEventListener("click", () => {
+            const grupos = productosContainer.querySelectorAll(".grupo-producto");
+            if (grupos.length < 5) {
+            const nuevaFila = document.createElement("div");
+            nuevaFila.className = "grupo-producto";
+            nuevaFila.innerHTML = `
+                <input type="text" class="producto" placeholder="Producto" required />
+                <input type="number" class="cantidad" placeholder="Cantidad" required />
+                <input type="number" class="precio" placeholder="Precio Unitario" required />
+            `;
+            productosContainer.appendChild(nuevaFila);
+            }
+
+            actualizarEstadoBotones();
+        });
+
+        // Evento para eliminar la última fila de producto
+        btnEliminarFila.addEventListener("click", () => {
+            const grupos = productosContainer.querySelectorAll(".grupo-producto");
+            if (grupos.length > 1) {
+            productosContainer.removeChild(grupos[grupos.length - 1]);
+            }
+
+            actualizarEstadoBotones();
+        });
+
+        // Función para habilitar/deshabilitar botón "-"
+        function actualizarEstadoBotones() {
+            const totalFilas = productosContainer.querySelectorAll(".grupo-producto").length;
+            btnEliminarFila.disabled = totalFilas <= 1;
+            btnAgregarFila.disabled = totalFilas >= 5;
+        }
+
+        // Evento para generar factura
         formFactura.addEventListener("submit", function (e) {
             e.preventDefault();
 
             const cliente = document.getElementById("clienteFactura").value;
-            const producto = document.getElementById("productoFactura").value;
-            const cantidad = parseInt(document.getElementById("cantidadFactura").value);
-            const precio = parseFloat(document.getElementById("precioFactura").value);
-            const subtotal = cantidad * precio;
+            const filas = productosContainer.querySelectorAll(".grupo-producto");
+
+            let filasHTML = "";
+            let subtotal = 0;
+
+            filas.forEach(fila => {
+            const producto = fila.querySelector(".producto").value;
+            const cantidad = parseInt(fila.querySelector(".cantidad").value);
+            const precio = parseFloat(fila.querySelector(".precio").value);
+            const totalFila = cantidad * precio;
+            subtotal += totalFila;
+
+            filasHTML += `
+                <tr>
+                <td>${producto}</td>
+                <td>${cantidad}</td>
+                <td>$${precio.toFixed(2)}</td>
+                <td>$${totalFila.toFixed(2)}</td>
+                </tr>
+            `;
+            });
+
             const iva = subtotal * 0.12;
             const total = subtotal + iva;
 
@@ -102,12 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td>${producto}</td>
-                    <td>${cantidad}</td>
-                    <td>$${precio.toFixed(2)}</td>
-                    <td>$${subtotal.toFixed(2)}</td>
-                    </tr>
+                    ${filasHTML}
                 </tbody>
                 <tfoot>
                     <tr>
@@ -123,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             `;
         });
-
         break;
 
       default:
