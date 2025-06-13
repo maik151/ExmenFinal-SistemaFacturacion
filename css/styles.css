@@ -1,0 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.contenedor-principal {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ASIDE - Menú lateral */
+.contenedor-aside {
+  width: 220px;
+  background-color: #2c3e50;
+  padding: 1.5rem;
+  color: white;
+}
+
+.titulo-menu {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.menu-navegacion ul {
+  list-style: none;
+}
+
+.menu-navegacion li {
+  margin: 1rem 0;
+}
+
+.menu-navegacion a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu-navegacion a:hover {
+  text-decoration: underline;
+}
+
+/* CONTENIDO PRINCIPAL */
+.contenedor-contenido {
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: #ecf0f1;
+}
+
+/* SECCIONES */
+.seccion {
+  margin-bottom: 2rem;
+}
+
+.seccion h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #34495e;
+}
+
+/* FORMULARIOS */
+form {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+form input,
+form select {
+  padding: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  flex: 1 1 200px;
+}
+
+form button {
+  padding: 0.6rem 1.2rem;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #3498db;
+}
+
+/* TABLAS */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+table thead {
+  background-color: #2980b9;
+  color: white;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column;
+  }
+
+  .contenedor-aside {
+    width: 100%;
+    text-align: center;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  form input,
+  form select,
+  form button {
+    width: 100%;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right:0; bottom:0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.oculto {
+  display: none;
+}
+
+.modal-contenido {
+  background: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+  border-radius: 8px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.cerrar-modal {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+

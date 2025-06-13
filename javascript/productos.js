@@ -70,3 +70,14 @@ function limpiarProductos() {
   localStorage.removeItem("productos");
   console.log("Todos los productos han sido eliminados.");
 }
+
+export {
+  MapearProductosObject,
+  obtenerTodosLosProductos,
+  guardarProductos,
+  agregarProducto,
+  obtenerProductoPorId,
+  actualizarProducto,
+  eliminarProducto,
+  limpiarProductos
+};

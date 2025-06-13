@@ -1,13 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema de Facturación</title>
+  <link rel="stylesheet" href="./css/styles.css" />
 </head>
 <body>
-    <script src="./javascript/clientes.js"></script>
-    <script src="./javascript/productos.js"></script>
+  <div class="contenedor-principal">
     
+    <!-- Menú lateral -->
+    <aside class="contenedor-aside">
+      <h2 class="titulo-menu">Menú</h2>
+      <nav class="menu-navegacion">
+        <ul>
+          <li><a href="#" data-seccion="clientes">Clientes</a></li>
+          <li><a href="#" data-seccion="productos">Productos</a></li>
+          <li><a href="#" data-seccion="facturacion">Facturación</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Panel dinámico (contenido que aparece al lado del menú) -->
+    <div id="panel-dinamico" class="panel-dinamico">
+      <p>Selecciona una opción del menú :3.</p>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="./javascript/navegacion.js"></script>
+  <script src="./javascript/main.js"></script>
 </body>
 </html>
