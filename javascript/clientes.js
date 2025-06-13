@@ -1,45 +1,68 @@
-
-// Definimos un array global de clientes (aquel que va a contener todos los clientes)
-let clientes = [];
-
-// Definimos el objeto de tipo cliente (con sus claves y valores para mapear luego las operaciones)
-let cliente = {
-  id: 0,
-  nombre: " ",
-  cedula: " ",
-  direccion: " "
-};
-
-function MapearClienteObject(idParam, nombreParam, cedulaParam, direccionParam){
-    let clienteObjetc = {
-        id: idParam,
-        nombre: nombreParam,
-        cedula: cedulaParam,
-        direccion: direccionParam
-    };
-    return clienteObjetc;
+// Función para mapear un cliente desde los parámetros
+function MapearClienteObject(idParam, nombreParam, cedulaParam, direccionParam) {
+  return {
+    id: idParam,
+    nombre: nombreParam,
+    cedula: cedulaParam,
+    direccion: direccionParam
+  };
 }
 
-
-function agregarCliente(clienteObject){
-    clientes.push(clienteObject);
-    console.log("cliente agregado de manera exitosa");
-
+// Obtener todos los clientes desde localStorage
+function obtenerTodosLosClientes() {
+  const datos = localStorage.getItem("clientes");
+  return datos ? JSON.parse(datos) : [];
 }
 
+// Obtener un cliente por ID desde localStorage
+function obtenerClientePorId(id) {
+  const clientes = obtenerTodosLosClientes();
+  return clientes.find(cliente => cliente.id === id);
+}
 
-function guardarClientesEnLocalStorage() {
+// Guardar el array de clientes en localStorage
+function guardarClientesEnLocalStorage(clientes) {
   localStorage.setItem("clientes", JSON.stringify(clientes));
   console.log("Clientes guardados en Local Storage.");
 }
 
-//Flujo del Programa inicial
+// Agregar un nuevo cliente
+function agregarCliente(cliente) {
+  const clientes = obtenerTodosLosClientes();
+  clientes.push(cliente);
+  guardarClientesEnLocalStorage(clientes);
+}
 
-// Crear y agregar un nuevo cliente
-let nuevoCliente = MapearClienteObject(1, "Ana Gómez", "87654321", "Calle Luna 123");
-agregarCliente(nuevoCliente);
+// Actualizar cliente existente
+function actualizarCliente(id, nombre, cedula, direccion) {
+  const clientes = obtenerTodosLosClientes();
+  const index = clientes.findIndex(c => c.id === id);
+  if (index !== -1) {
+    clientes[index] = MapearClienteObject(id, nombre, cedula, direccion);
+    guardarClientesEnLocalStorage(clientes);
+  }
+}
 
-console.log(clientes);
+// Eliminar cliente por ID
+function eliminarCliente(id) {
+  let clientes = obtenerTodosLosClientes();
+  clientes = clientes.filter(c => c.id !== id);
+  guardarClientesEnLocalStorage(clientes);
+}
 
-// Guardar después de agregar
-guardarClientesEnLocalStorage();
+// Eliminar todos los clientes (limpiar storage)
+function limpiarClientes() {
+  localStorage.removeItem("clientes");
+  console.log("Clientes eliminados del Local Storage.");
+}
+
+// Exportar funciones si estás usando módulos (opcional)
+export {
+  MapearClienteObject,
+  obtenerTodosLosClientes,
+  obtenerClientePorId,
+  agregarCliente,
+  actualizarCliente,
+  eliminarCliente,
+  limpiarClientes
+};
