@@ -1,4 +1,6 @@
 
+import { inicializarModuloClientes } from "./main.js";
+
 // En este caso, ejecutamos un eveto tipo ContentLoaded para asegurarnos de que el DOM esté completamente cargado antes de intentar manipularlo.
 document.addEventListener("DOMContentLoaded", () => {
 //importamos en constantes el menu de navegacion, y el contenedor principal donde se mostrará el contenido dinámico.
