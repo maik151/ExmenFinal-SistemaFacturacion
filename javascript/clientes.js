@@ -27,10 +27,23 @@ function guardarClientesEnLocalStorage(clientes) {
 }
 
 // Agregar un nuevo cliente
-function agregarCliente(cliente) {
-  const clientes = obtenerTodosLosClientes();
-  clientes.push(cliente);
+function agregarCliente(clienteData) {
+  let clientes = obtenerTodosLosClientes();
+
+  // Obtener el máximo ID actual (0 si no hay clientes)
+  let maxId = clientes.reduce((max, c) => Math.max(max, c.id), 0);
+
+  // Asignar nuevo ID sumando 1
+  let nuevoId = maxId + 1;
+
+  // Crear cliente con ID nuevo y datos recibidos
+  let nuevoCliente = MapearClienteObject(nuevoId, clienteData.nombre, clienteData.cedula, clienteData.direccion);
+
+  clientes.push(nuevoCliente);
   guardarClientesEnLocalStorage(clientes);
+
+  console.log("Cliente agregado con id:", nuevoId);
+  return nuevoCliente;
 }
 
 // Actualizar cliente existente
@@ -56,13 +69,4 @@ function limpiarClientes() {
   console.log("Clientes eliminados del Local Storage.");
 }
 
-// Exportar funciones si estás usando módulos (opcional)
-export {
-  MapearClienteObject,
-  obtenerTodosLosClientes,
-  obtenerClientePorId,
-  agregarCliente,
-  actualizarCliente,
-  eliminarCliente,
-  limpiarClientes
-};
+
